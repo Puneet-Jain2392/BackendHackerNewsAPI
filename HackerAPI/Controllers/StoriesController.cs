@@ -20,8 +20,15 @@ namespace HackerAPI.Controllers
         [HttpGet("newest")]
         public async Task<IActionResult> GetNewestStories()
         {
-            var stories = await _cacheService.GetOrCreateAsync("newest_stories", () => _storyService.GetNewestStoriesAsync());
-            return Ok(stories);
+            try
+            {
+                var stories = await _cacheService.GetOrCreateAsync("newest_stories", () => _storyService.GetNewestStoriesAsync());
+                return Ok(stories);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

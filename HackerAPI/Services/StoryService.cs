@@ -15,7 +15,15 @@ namespace HackerAPI.Services
 
         public async Task<IEnumerable<Story>> GetNewestStoriesAsync()
         {
-            return await _storyRepository.GetNewestStoriesAsync();
+            try
+            {
+                return await _storyRepository.GetNewestStoriesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred in StoryService.", ex);
+            }
         }
+
     }
 }
